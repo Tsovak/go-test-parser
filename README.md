@@ -4,6 +4,8 @@
 
 License: GPL v3. [GPL License](http://www.gnu.org/licenses)
 
+![tests](https://github.com/Tsovak/go-test-parser/workflows/tests/badge.svg)
+
 ## Introduction
 
 This is the CLI fot make go test output more readable. 
