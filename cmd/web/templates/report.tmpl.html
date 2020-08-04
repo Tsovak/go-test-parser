@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Test report</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100">
+                <table>
+                    <thead>
+                    <tr class="table100-head">
+                        <th class="column1">Package</th>
+                        <th class="column2">TestName</th>
+                        <th class="column3">Result</th>
+                    </tr>
+                    </thead>
+                    {{range .}}
+                        <tbody>
+                        <tr onClick='toggleRow(this)'>
+                            <td class="column1">{{.Package}}</td>
+                            <td class="column2">{{.TestName}}</td>
+                            <td class="column3 {{.Result}}">{{.Result}}</td>
+                        </tr>
+                        <tr class="hide-row">
+                            <td colspan="3">
+                                <pre>{{.StdOut}}{{.StdErr}}</pre>
+                            </td>
+                        </tr>
+                        </tbody>
+                    {{end}}
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
