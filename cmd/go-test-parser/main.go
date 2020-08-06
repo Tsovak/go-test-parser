@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/tsovak/go-test-parser/cmd/web/cmd"
+	"github.com/tsovak/go-test-parser/cmd/go-test-parser/cmd"
 )
 
 func main() {
