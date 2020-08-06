@@ -51,8 +51,19 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
+      - name: Make mod
+        run: make mod
       - name: Test
-        run: make mod unit
+        run: make unit-ci | tee test.log
+      - name: Generate report
+        run: |
+          make build
+          ./bin/go-test-parser -v -s -o report test.log
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: report
+
   golangci-lint:
     name: Run golangci-lint
     runs-on: ubuntu-latest
