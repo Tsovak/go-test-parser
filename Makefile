@@ -33,6 +33,10 @@ build:  ## build all applications
 unit:  ## run unit tests
 	go test -v ./... -count 10 -race
 
+.PHONY: unit-ci
+unit-ci:  ## run unit tests with json output
+	go test -v ./... -count 10 -race -json
+
 .PHONY: lint
 lint: golangci ## run linter
 	${BIN_DIR}/golangci-lint --color=always run ./... -v --timeout 5m

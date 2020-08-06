@@ -20,6 +20,13 @@ The CLI aggregate all mixed test output and displays the tests with their output
 Run the command in the project base dir 
 
     make build 
+
+## Install 
+```bash
+$ go get github.com/tsovak/go-test-parser/...
+$ go-test-parser -h
+```
+
     
 ## Usage 
 
