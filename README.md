@@ -17,6 +17,7 @@ The CLI aggregate all mixed test output and displays the tests with their output
     2. Make
     
 ## Build
+
 Run the command in the project base dir 
 
     make build 
@@ -51,6 +52,12 @@ Flags:
 
 1. Generate report to directory: `go-test-parser -o ./report_directory test.log`
 2. Generate report and display in the browser via url http://localhost/report: `go-test-parser  -w --http 80 test.log`
+
+### Use in your CI workflows
+
+The CLI is being used on the Github Action workflows in this repository. 
+See "Generate report" action step for more information.
+
 
 ###### Demo
 ![Report Demo](demo/demo.gif)
