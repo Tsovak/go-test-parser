@@ -58,7 +58,7 @@ jobs:
       - name: Generate report
         run: |
           make build
-          ./bin/go-test-parser -v -s -o report
+          ./bin/go-test-parser -v -s -o report test.log
       - uses: actions/upload-artifact@v2
         with:
           name: test-report
