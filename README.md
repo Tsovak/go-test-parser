@@ -55,7 +55,7 @@ Flags:
 
 ### Use in your CI workflows
 
-The CLI is being used on the Github Action workflows in this repository. 
+The CLI is used on the Github Action workflows in this repository. 
 See "Generate report" action step for more information.
 
 
