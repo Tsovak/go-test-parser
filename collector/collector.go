@@ -1,8 +1,9 @@
-package cmd
+package collector
 
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
@@ -12,21 +13,22 @@ import (
 	"github.com/tsovak/go-test-parser/parser"
 )
 
-type resultCollector struct {
+// ResultCollector collects the test result and store inside
+type ResultCollector struct {
 	sync.Mutex
-	testResult             []models.TestResult
+	TestResult             []models.TestResult
 	reportSucceeded        bool
 	loggedAtLeastOneResult bool
 }
 
-func NewResultCollector(reportSucceeded bool) *resultCollector {
-	return &resultCollector{
-		testResult:      make([]models.TestResult, 0),
+func NewResultCollector(reportSucceeded bool) *ResultCollector {
+	return &ResultCollector{
+		TestResult:      make([]models.TestResult, 0),
 		reportSucceeded: reportSucceeded,
 	}
 }
 
-func (l *resultCollector) collectTestResult(result models.TestResult) {
+func (l *ResultCollector) CollectTestResult(result models.TestResult) {
 	l.loggedAtLeastOneResult = true
 	if result.Result == models.Successful {
 		if !l.reportSucceeded {
@@ -34,22 +36,25 @@ func (l *resultCollector) collectTestResult(result models.TestResult) {
 		}
 	}
 	l.Lock()
-	l.testResult = append(l.testResult, result)
+	l.TestResult = append(l.TestResult, result)
 	l.Unlock()
 }
 
-func (l *resultCollector) hasAnyTest() bool {
+func (l *ResultCollector) HasAnyTest() bool {
 	return l.loggedAtLeastOneResult
 }
 
-func ReadFromScanner(parser parser.TestResultParser, scanner *bufio.Scanner, verbose bool) {
+func ReadFromScanner(parser parser.TestResultParser, scanner *bufio.Scanner, logToOutput, verbose bool) {
 	for scanner.Scan() {
 		text := scanner.Text()
+		if logToOutput {
+			fmt.Println(text)
+		}
 		parser.ParseLine(text, verbose)
 	}
 }
 
-func isFileExists(filename string) bool {
+func IsFileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
 		return false
@@ -57,14 +62,14 @@ func isFileExists(filename string) bool {
 	return !info.IsDir()
 }
 
-func createFile(p string) (*os.File, error) {
+func CreateFile(p string) (*os.File, error) {
 	if err := os.MkdirAll(filepath.Dir(p), 0770); err != nil {
 		return nil, err
 	}
 	return os.Create(p)
 }
 
-func dumpStaticPageToDir(box packr.Box, folder string) error {
+func DumpStaticPageToDir(box packr.Box, folder string) error {
 	file, err := os.Stat(folder)
 	if !os.IsNotExist(err) {
 		if !file.IsDir() {
@@ -87,7 +92,7 @@ func dumpStaticPageToDir(box packr.Box, folder string) error {
 		if err != nil {
 			return err
 		}
-		f, err := createFile(folder + string(os.PathSeparator) + fileName)
+		f, err := CreateFile(folder + string(os.PathSeparator) + fileName)
 		if err != nil {
 			return err
 		}

@@ -34,4 +34,5 @@ data
 /bin
 coverage.txt
 report*/
+.reports
 *.log

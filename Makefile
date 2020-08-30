@@ -28,6 +28,7 @@ install_deps: golangci ## install necessary dependencies
 .PHONY: build
 build:  ## build all applications
 	go build -ldflags "$(LDFLAGS)" -o $(BIN_DIR)/go-test-parser cmd/go-test-parser/*.go
+	go build -ldflags "$(LDFLAGS)" -o $(BIN_DIR)/go-runner cmd/go-runner/*.go
 
 .PHONY: unit
 unit:  ## run unit tests
