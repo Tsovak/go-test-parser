@@ -10,6 +10,7 @@ import (
 	"github.com/gobuffalo/packr"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	_collector "github.com/tsovak/go-test-parser/collector"
 	"github.com/tsovak/go-test-parser/parser"
 )
 
@@ -44,7 +45,7 @@ func GetWebAppCommand() *cobra.Command {
 			var scanner *bufio.Scanner
 			if len(args) > 0 {
 				filePath := args[0]
-				ok := isFileExists(filePath)
+				ok := _collector.IsFileExists(filePath)
 				if !ok {
 					return errors.New("file does not exists")
 				}
@@ -59,22 +60,21 @@ func GetWebAppCommand() *cobra.Command {
 				scanner = bufio.NewScanner(os.Stdin)
 			}
 
-			collector := NewResultCollector(includeSucceeded)
-			parser := parser.NewResultsParser(collector.collectTestResult)
+			collector := _collector.NewResultCollector(includeSucceeded)
+			parser := parser.NewResultsParser(collector.CollectTestResult)
 
 			// save static assets to the package
-			box := packr.NewBox("../templates")
+			box := packr.NewBox("../../templates")
 			tmplFile, err := box.FindString("report.tmpl.html")
 			if err != nil {
 				return err
 			}
 			tmpl := template.Must(template.New("tmpl").Parse(tmplFile))
-			ReadFromScanner(parser, scanner, verbose)
+			_collector.ReadFromScanner(parser, scanner, false, verbose)
 
 			if startHttp {
-
 				http.HandleFunc("/report", func(w http.ResponseWriter, r *http.Request) {
-					err := tmpl.Execute(w, collector.testResult)
+					err := tmpl.Execute(w, collector.TestResult)
 					if err != nil {
 						panic(err)
 					}
@@ -83,15 +83,15 @@ func GetWebAppCommand() *cobra.Command {
 				http.Handle("/", http.StripPrefix("/", http.FileServer(box)))
 				return http.ListenAndServe(fmt.Sprintf(":%d", httpServeAddress), nil)
 			} else {
-				err = dumpStaticPageToDir(box, reportDir)
+				err = _collector.DumpStaticPageToDir(box, reportDir)
 				if err != nil {
 					return errors.Wrapf(err, "cannot dump static page")
 				}
-				f, err := createFile(reportDir + "/index.html")
+				f, err := _collector.CreateFile(reportDir + "/index.html")
 				if err != nil {
 					return errors.Wrapf(err, "error creating file")
 				}
-				err = tmpl.Execute(f, collector.testResult)
+				err = tmpl.Execute(f, collector.TestResult)
 				if err != nil {
 					return err
 				}
@@ -99,7 +99,7 @@ func GetWebAppCommand() *cobra.Command {
 			}
 
 			// fail if test weren't found
-			if !collector.hasAnyTest() {
+			if !collector.HasAnyTest() {
 				return errors.New("no tests were found/logged!")
 			}
 
