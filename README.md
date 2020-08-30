@@ -26,6 +26,7 @@ Run the command in the project base dir
 ```bash
 $ go get github.com/tsovak/go-test-parser/...
 $ go-test-parser -h
+$ go-runner help
 ```
 
     
