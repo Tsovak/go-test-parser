@@ -1,8 +1,6 @@
 #  Beautify the Golang test output
 
-[![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
-
-License: GPL v3. [GPL License](http://www.gnu.org/licenses)
+License: [MIT License](./LICENSE)
 
 ![tests](https://github.com/Tsovak/go-test-parser/workflows/tests/badge.svg)
 

@@ -1,0 +1,39 @@
+name: goreleaser
+
+on:
+  push:
+    branches-ignore:
+      - "**"
+    tags:
+      - "v*.*.*"
+
+env:
+  GO_VERSION: 1.14
+
+jobs:
+  goreleaser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: set up go ${{env.GO_VERSION}}
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{env.GO_VERSION}}
+        id: go
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - name: Go mod cache setup
+        uses: actions/cache@v2
+        with:
+          path: ${{env.GOPATH}}/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: release --rm-dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
