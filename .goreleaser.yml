@@ -1,18 +1,24 @@
 # This is an example goreleaser.yaml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
 builds:
-  - env:
+  - id: "go-runner"
+    main: ./cmd/go-runner
+    binary: go-runner
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
       - windows
       - darwin
-  - id: "go-runner"
-    main: ./cmd/go-runner
-    binary: go-runner
   - id: "go-test-parser"
     main: ./cmd/go-test-parser
     binary: go-test-parser
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
 archives:
   - replacements:
       darwin: Darwin
