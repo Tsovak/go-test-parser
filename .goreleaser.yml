@@ -10,6 +10,10 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
   - id: "go-test-parser"
     main: ./cmd/go-test-parser
     binary: go-test-parser
@@ -19,6 +23,10 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
 archives:
   - replacements:
       darwin: Darwin
