@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/gobuffalo/packr"
+	packr "github.com/gobuffalo/packr/v2"
 	"github.com/tsovak/go-test-parser/models"
 	"github.com/tsovak/go-test-parser/parser"
 )
@@ -69,7 +69,7 @@ func CreateFile(p string) (*os.File, error) {
 	return os.Create(p)
 }
 
-func DumpStaticPageToDir(box packr.Box, folder string) error {
+func DumpStaticPageToDir(box *packr.Box, folder string) error {
 	file, err := os.Stat(folder)
 	if !os.IsNotExist(err) {
 		if !file.IsDir() {

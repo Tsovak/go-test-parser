@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/pkg/errors"
 	_collector "github.com/tsovak/go-test-parser/collector"
 	"github.com/tsovak/go-test-parser/parser"
@@ -83,7 +83,7 @@ func (e *Executor) dump() error {
 		return nil
 	}
 	// save static assets to the package
-	box := packr.NewBox("../../templates")
+	box := packr.New("templates", "../../templates")
 	tmplFile, err := box.FindString("report.tmpl.html")
 	if err != nil {
 		return err

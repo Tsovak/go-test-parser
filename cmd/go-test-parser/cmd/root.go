@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	_collector "github.com/tsovak/go-test-parser/collector"
@@ -64,7 +64,7 @@ func GetWebAppCommand() *cobra.Command {
 			parser := parser.NewResultsParser(collector.CollectTestResult)
 
 			// save static assets to the package
-			box := packr.NewBox("../../templates")
+			box := packr.New("templates", "../../templates")
 			tmplFile, err := box.FindString("report.tmpl.html")
 			if err != nil {
 				return err
