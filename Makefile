@@ -1,6 +1,7 @@
 export GOPATH ?= $(shell go env GOPATH)
 export GO111MODULE ?= on
-
+GOBASE=$(shell pwd)
+export GOBIN=$(GOBASE)/bin
 BIN_DIR = bin
 APPNAME = app
 LDFLAGS ?=
@@ -25,7 +26,7 @@ golangci: ## install golangci-linter
 	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ${BIN_DIR} v1.21.0
 
 install_packr: ## install packr2
-	go get -u github.com/gobuffalo/packr/v2/packr2
+	go install github.com/gobuffalo/packr/v2/packr2
 
 .PHONY: install_deps
 install_deps: golangci install_packr ## install necessary dependencies
@@ -37,8 +38,8 @@ build:  ## build all applications
 
 .PHONY: packr
 packr:  ##
-	cd cmd/go-runner && packr2
-	cd cmd/go-test-parser && packr2
+	cd cmd/go-runner && $(GOBIN)/packr2
+	cd cmd/go-test-parser && $(GOBIN)/packr2
 
 
 .PHONY: unit
