@@ -29,8 +29,7 @@ builds:
       - arm64
 before:
   hooks:
-    - make install_packr
-    - make packr
+    - make install_packr packr
 archives:
   - replacements:
       darwin: Darwin
