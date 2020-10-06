@@ -27,6 +27,10 @@ builds:
       - amd64
       - arm
       - arm64
+before:
+  hooks:
+    - make install_packr
+    - make packr
 archives:
   - replacements:
       darwin: Darwin
