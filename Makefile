@@ -50,6 +50,11 @@ unit:  ## run unit tests
 unit-ci:  ## run unit tests with json output
 	go test -v ./... -count 10 -race -json
 
+.PHONY: test-with-coverage
+test-with-coverage: ## run tests with coverage mode
+	go test -v ./... -count 1 -race -coverprofile=coverage.out
+
+
 .PHONY: lint
 lint: golangci ## run linter
 	${BIN_DIR}/golangci-lint --color=always run ./... -v --timeout 5m
